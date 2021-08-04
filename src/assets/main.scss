@@ -1,0 +1,35 @@
+@media screen and (min-width: 1024px) {
+  .navbar-menu-position {
+    position: relative !important;
+    width: unset !important;
+  }
+
+  .container-height {
+    height: calc(100vh - 58px);
+  }
+
+  .auth-container { //sign-up-component
+    .auth-bg {
+      display: block !important;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .auth-container {
+    display: flex;
+    flex-direction: column;
+
+    .auth-logo {
+      position: relative !important;
+      margin: 10px 0 0 0 !important;
+      text-align: center;
+
+      img {
+        width: 50%;
+      }
+    }
+  }
+}
+
+@import '~bulma';
