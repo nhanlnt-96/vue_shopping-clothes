@@ -4,13 +4,25 @@
     width: unset !important;
   }
 
-  .container-height {
-    height: calc(100vh - 58px);
-  }
-
   .auth-container { //sign-up-component
+    height: calc(100vh - 54px);
+
     .auth-bg {
       display: block !important;
+    }
+  }
+
+  .home-container-left {
+    .home-search {
+      width: 50%;
+    }
+
+    .home-content {
+      .item {
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
     }
   }
 }

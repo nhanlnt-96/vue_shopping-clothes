@@ -20,8 +20,6 @@ const state = () => ({
   },
 });
 
-const getters = {};
-
 const actions = {
   addNewAccountAction({ commit, state }, userSignUp) {
     const userCheck = state.allAccount.find((val) => val.username === userSignUp.username);
@@ -93,7 +91,6 @@ const mutations = {
 export default {
   namespaced: true,
   state,
-  getters,
   actions,
   mutations,
 };

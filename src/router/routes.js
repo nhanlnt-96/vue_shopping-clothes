@@ -6,7 +6,7 @@ import SignInForm from '../components/SignInForm.vue';
 const routes = [
   {
     path: '/',
-    name: 'Homepage',
+    name: 'Home',
     component: Homepage,
   },
   {

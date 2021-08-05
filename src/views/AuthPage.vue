@@ -20,8 +20,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.header-hide {
+  display: none;
+}
+
 .auth-container {
-  height: 100vh;
+  height: calc(100vh - 74px);
   margin: 0;
   paddinng: 0;
 
