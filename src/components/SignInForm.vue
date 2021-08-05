@@ -1,37 +1,35 @@
 <template>
+  <div v-if="signInSuccess.status" class="notification is-primary">
+    {{ signInSuccess.status }}
+  </div>
+  <div v-if="signInSuccess.error" class="notification is-danger">
+    {{ signInSuccess.error }}
+  </div>
   <div class="auth-header mb-4">
     <h2 class="is-size-3 is-dark has-text-weight-bold has-text-centered">Sign In</h2>
   </div>
-
   <div class="field">
     <label class="label">Username</label>
     <div class="control has-icons-left has-icons-right">
-      <input class="input is-success" type="text" placeholder="Text input" value="bulma">
+      <input v-model="userSignIn.username" class="input"
+             :class="validated(userSignIn.username)" type="text"
+             placeholder="Text input">
       <span class="icon is-small is-left">
       <i class='bx bxs-user'></i>
-    </span>
-      <span class="icon is-small is-right">
-      <i class="fas fa-check"></i>
-    </span>
+      </span>
     </div>
-    <p class="help is-success">This username is available</p>
   </div>
-
   <div class="field">
     <label class="label">Password</label>
     <div class="control has-icons-left has-icons-right">
-      <input class="input is-success" type="password" placeholder="Enter your password."
-             value="bulma">
+      <input v-model="userSignIn.password" class="input"
+             :class="validated(userSignIn.password)" type="password"
+             placeholder="Enter your password.">
       <span class="icon is-small is-left">
         <i class='bx bxs-lock-alt'></i>
       </span>
-      <span class="icon is-small is-right">
-        <i class="fas fa-check"></i>
-      </span>
     </div>
-    <p class="help is-success">This username is available</p>
   </div>
-
   <div class="field">
     <div class="control is-flex is-flex-direction-row is-justify-content-flex-end">
       Not registered yet ?
@@ -42,24 +40,54 @@
       </router-link>
     </div>
   </div>
-
   <div class="field">
     <div class="control">
-      <button class="button is-link">Submit</button>
+      <button @click="onSignInBtnClick(userSignIn)" class="button is-link">Submit</button>
     </div>
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line import/no-cycle
+import router from '@/router';
+import store from '@/store';
+import { mapState } from 'vuex';
+
 export default {
   name: 'SignInForm',
   data() {
     return {
-      userSignUp: [{
-        name: '',
-
-      }],
+      userSignIn: {
+        username: '',
+        password: '',
+      },
+      isEmpty: false,
     };
+  },
+  methods: {
+    onSignInBtnClick(userSignIn) {
+      if (userSignIn.username !== '' && userSignIn.password !== '') {
+        store.dispatch('auth/signInAccountAction', userSignIn);
+      }
+      if (userSignIn.username === '' || userSignIn.password === '') {
+        this.isEmpty = true;
+      }
+      if (this.signInSuccess.isLogged) {
+        this.userSignIn = {
+          username: '',
+          password: '',
+        };
+        router.push({ path: '/' });
+      }
+    },
+    validated(validateItem) {
+      return (validateItem === '' && this.isEmpty) && 'is-danger';
+    },
+  },
+  computed: {
+    ...mapState({
+      signInSuccess: (state) => state.auth.authAccount,
+    }),
   },
 };
 </script>

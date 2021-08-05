@@ -1,8 +1,14 @@
+import Homepage from '@/views/Homepage.vue';
 import AuthPage from '../views/AuthPage.vue';
 import SignUpForm from '../components/SignUpForm.vue';
 import SignInForm from '../components/SignInForm.vue';
 
 const routes = [
+  {
+    path: '/',
+    name: 'Homepage',
+    component: Homepage,
+  },
   {
     path: '/auth',
     name: 'AuthPage',

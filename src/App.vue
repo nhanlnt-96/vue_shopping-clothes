@@ -1,6 +1,6 @@
 <template>
   <div class="container is-fluid p-0">
-    <div :class="['header',!isAuth && 'hide']">
+    <div v-if="isAuth.isLogged" :class="['header',!isAuth && 'hide']">
       <Header />
     </div>
     <div class="container is-fluid p-0 container-height">
@@ -11,16 +11,17 @@
 
 <script>
 import Header from '@/components/Header.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'App',
   components: {
     Header,
   },
-  data() {
-    return {
-      isAuth: true,
-    };
+  computed: {
+    ...mapState({
+      isAuth: (state) => state.auth.authAccount,
+    }),
   },
 };
 </script>
