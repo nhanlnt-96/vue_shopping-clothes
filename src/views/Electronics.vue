@@ -3,9 +3,9 @@
     <div class="columns">
       <div class="column home-container-left">
         <div class="home-title">
-          <p class="is-size-2">All Products</p>
+          <p class="is-size-2">Electronics</p>
         </div>
-        <div class="home-content mt-5" ref="scrollingComponent">
+        <div class="home-content mt-5">
           <product :data="allProductData" :is-loading="isLoading"></product>
         </div>
       </div>
@@ -15,20 +15,21 @@
 
 <script>
 import Product from '@/components/Product.vue';
-import { getAllProduct } from '@/network/services';
+import { getProductByCategory } from '@/network/services';
 
 export default {
-  name: 'Homepage',
-  components: { Product },
+  name: 'MenClothes',
+  components: {
+    Product,
+  },
   data() {
     return {
-      dropDownActive: false,
       allProductData: [],
       isLoading: true,
     };
   },
   created() {
-    getAllProduct().then((response) => {
+    getProductByCategory('electronics').then((response) => {
       this.allProductData = response.data;
       this.isLoading = false;
     });
@@ -36,6 +37,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

@@ -3,20 +3,17 @@
 /* eslint-disable max-len */
 
 const state = () => ({
-  products: [],
+  showCart: false,
 });
 
-const actions = {};
-
 const mutations = {
-  addToCart(state, product) {
-    state.products.push(product);
+  showCart(state) {
+    state.showCart = !state.showCart;
   },
 };
 
 export default {
   namespaced: true,
   state,
-  actions,
   mutations,
 };

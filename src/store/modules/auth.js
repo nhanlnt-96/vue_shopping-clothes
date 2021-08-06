@@ -9,7 +9,7 @@ const state = () => ({
     fullName: '',
     username: '',
     email: '',
-    isLogged: false,
+    isLogged: true,
     status: '',
     error: '',
   },

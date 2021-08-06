@@ -24,7 +24,7 @@
       </div>
 
       <div class="navbar-end navbar-end-padding">
-        <div v-if="isAuth" class="navbar-item">
+        <div v-if="!isAuth.isLogged" class="navbar-item">
           <div class="buttons">
             <router-link to="/auth/sign-up"
                          class="button is-primary">
@@ -32,15 +32,17 @@
             </router-link>
             <router-link to="/auth/sign-in"
                          class="button is-light">
-              Log in
+              Sign in
             </router-link>
           </div>
         </div>
-        <div v-if="!isAuth" class="user-navbar">
+        <div v-if="isAuth.isLogged" class="user-navbar">
           <nav class="level is-mobile">
-            <div class="level-left">
+            <div class="level-left" @click="$store.commit('showCart/showCart')">
               <a class="level-item">
-                <span class="icon is-small"><i class='bx bx-shopping-bag icon-size'></i></span>
+                <span class="icon is-small">
+                  <i class='bx bx-shopping-bag icon-size'></i>
+                </span>
               </a>
             </div>
           </nav>
