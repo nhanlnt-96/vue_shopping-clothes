@@ -24,18 +24,16 @@
       </div>
     </div>
   </div>
-  <cart></cart>
 </template>
 
 <script>
-import Cart from '@/components/Cart.vue';
 import router from '@/router';
 import store from '@/store';
 import { mapState } from 'vuex';
 
 export default {
   name: 'Product',
-  components: { Cart },
+  components: {},
   props: {
     data: Array,
     isLoading: Boolean,
