@@ -35,7 +35,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 export default {
   name: 'Cart',
