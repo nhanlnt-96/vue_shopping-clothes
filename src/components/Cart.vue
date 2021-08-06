@@ -24,8 +24,10 @@
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success">Save changes</button>
-        <button class="button">Cancel</button>
+        <button class="button is-primary">
+          Checkout:
+          <p class="has-text-weight-bold ml-2">${{ cartTotal }}</p>
+        </button>
       </footer>
     </div>
   </div>
@@ -41,6 +43,9 @@ export default {
       allProducts: (state) => state.product.products,
       cartActive: (state) => state.showCart.showCart,
     }),
+    cartTotal() {
+      return this.allProducts.reduce((pre, cur) => pre + cur.price, 0);
+    },
   },
   methods: {
     truncateTitle(title) {
