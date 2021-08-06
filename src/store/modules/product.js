@@ -6,11 +6,19 @@ const state = () => ({
   products: [],
 });
 
-const actions = {};
+const actions = {
+  removeProductFromCartAction({ commit, state }, id) {
+    const data = state.products.filter((val) => val.id !== id);
+    commit('removeProductFromCart', data);
+  },
+};
 
 const mutations = {
   addToCart(state, product) {
     state.products.push(product);
+  },
+  removeProductFromCart(state, products) {
+    state.products = products;
   },
 };
 

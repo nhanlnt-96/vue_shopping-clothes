@@ -8,6 +8,7 @@
                 @click="$store.commit('showCart/showCart')"></button>
       </header>
       <section class="modal-card-body cart-container">
+        <p v-if="noData">No product is selected.</p>
         <div :key="item.id" v-for="item in allProducts" class="media">
           <div class="media-left">
             <figure class="image is-48x48">
@@ -18,7 +19,7 @@
             <p :title="item.title" class="title is-4">{{ truncateTitle(item.title) }}</p>
             <p class="subtitle is-6">${{ item.price }}</p>
           </div>
-          <button class="button is-danger">
+          <button @click="onDeleteProductBtnClick(item.id)" class="button is-danger">
             <i class='bx bxs-trash-alt'></i>
           </button>
         </div>
@@ -35,7 +36,7 @@
 
 <script>
 import { mapState } from 'vuex';
-// import _ from 'lodash';
+import store from '../store';
 
 export default {
   name: 'Cart',
@@ -45,7 +46,14 @@ export default {
       cartActive: (state) => state.showCart.showCart,
     }),
     cartTotal() {
-      return this.allProducts.reduce((pre, cur) => pre + cur.price, 0);
+      const result = this.allProducts.reduce((pre, cur) => pre + cur.price, 0);
+      return Math.round((result + Number.EPSILON) * 100) / 100;
+    },
+    noData() {
+      if (this.allProducts.length <= 0) {
+        return true;
+      }
+      return false;
     },
   },
   methods: {
@@ -56,6 +64,9 @@ export default {
         return title.substring(0, length - ending.length) + ending;
       }
       return title;
+    },
+    onDeleteProductBtnClick(id) {
+      store.dispatch('product/removeProductFromCartAction', id);
     },
   },
 };
