@@ -58,8 +58,6 @@
                 <div v-if="showAccountOption"
                      class="dropdown-menu" id="dropdown-menu" role="menu">
                   <div class="dropdown-content">
-                    <a href="#" class="dropdown-item">My profile</a>
-                    <hr class="dropdown-divider">
                     <a href="#" class="dropdown-item" @click="onLogoutBtnClick">Logout</a>
                   </div>
                 </div>
