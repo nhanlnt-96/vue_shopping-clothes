@@ -1,7 +1,9 @@
 <template>
   <div class="columns is-mobile auth-container">
     <div class="auth-logo">
-      <img src="../assets/imgs/logo-black.png" alt="tech-life-logo">
+      <router-link to="/">
+        <img src="../assets/imgs/logo-black.png" alt="tech-life-logo">
+      </router-link>
     </div>
     <div class="column is-7-desktop is-7-tablet auth-bg">
       <img src="../assets/imgs/sign-up-bg.webp" alt="tech-life-sign-up">
