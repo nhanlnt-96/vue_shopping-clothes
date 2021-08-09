@@ -48,7 +48,11 @@ const mutations = {
   },
   decreaseProduct(state, product) {
     const indexOfProduct = state.products.indexOf(product);
-    state.products[indexOfProduct].quantity -= 1;
+    if (state.products[indexOfProduct].quantity > 1) {
+      state.products[indexOfProduct].quantity -= 1;
+    } else {
+      state.products.splice(indexOfProduct, 1);
+    }
   },
 };
 

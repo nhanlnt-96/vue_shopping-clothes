@@ -51,7 +51,7 @@ export default {
   name: 'Cart',
   computed: {
     ...mapState({
-      allProducts: (state) => state.product.products.filter((val) => val.quantity >= 1),
+      allProducts: (state) => state.product.products,
       cartActive: (state) => state.showModal.showCart,
     }),
     cartTotal() {

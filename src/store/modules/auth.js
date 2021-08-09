@@ -38,7 +38,7 @@ const actions = {
           id: Math.floor(Math.random() * 1000),
           fullName,
           email,
-          username: username.toLowerCase().replaceAll(' ', ''),
+          username: username.replaceAll(' ', ''),
           password,
         });
         state.error = {
@@ -52,12 +52,12 @@ const actions = {
         };
       } else if (username.includes(' ')) {
         state.error = {
-          username: `Username must be ${username.toLowerCase().replaceAll(' ', '')}`,
+          username: `Username must be ${username.replaceAll(' ', '')}`,
           email: '',
         };
       } else {
         state.error = {
-          username: `Username must be ${username.toLowerCase().replaceAll(' ', '')}`,
+          username: `Username must be ${username.replaceAll(' ', '')}`,
           email: 'Invalid email.',
         };
       }
