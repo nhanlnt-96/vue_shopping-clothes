@@ -1,14 +1,15 @@
 <template>
   <!-- eslint-disable max-len -->
+  <notification></notification>
   <div class="columns is-multiline is-flex is-justify-content-center">
     <button v-if="isLoading" class="button is-loading btn-loading">Loading</button>
     <div :key="item.id" v-for="item in data"
          class="column is-12-mobile is-one-third-tablet is-one-fifth-desktop item">
-      <div class="item-image">
+      <div @click="onImageZoomBtnClick(item.image)" class="item-image" style="cursor:pointer;">
         <img :src="item.image" :alt="item.title">
       </div>
       <div class="item-title">
-        <p>{{ item.title }}</p>
+        <p @click="onShowProductDetail(item)" style="cursor:pointer;">{{ item.title }}</p>
       </div>
       <div class="item-tag">
         <span class="tag">{{ item.category }}</span>
@@ -19,21 +20,31 @@
           <p>${{ item.price }}</p>
         </div>
         <div class="btn-add-cart">
-          <button @click="onAddToCartBtnClick(item)" class="button is-primary">Add to cart</button>
+          <add-to-cart-button :item="item"></add-to-cart-button>
         </div>
       </div>
     </div>
+    <product-image-zoom></product-image-zoom>
+    <product-detail></product-detail>
   </div>
 </template>
 
 <script>
-import router from '@/router';
-import store from '@/store';
+import Notification from '@/components/Notification.vue';
 import { mapState } from 'vuex';
+import store from '../store';
+import AddToCartButton from './AddToCartButton.vue';
+import ProductDetail from './ProductDetail.vue';
+import ProductImageZoom from './ProductImageZoom.vue';
 
 export default {
   name: 'Product',
-  components: {},
+  components: {
+    Notification,
+    AddToCartButton,
+    ProductImageZoom,
+    ProductDetail,
+  },
   props: {
     data: Array,
     isLoading: Boolean,
@@ -44,12 +55,13 @@ export default {
     }),
   },
   methods: {
-    onAddToCartBtnClick(item) {
-      if (!this.isLogged) {
-        router.push({ name: 'SignInPage' });
-      } else {
-        store.commit('product/addToCart', item);
-      }
+    onShowProductDetail(item) {
+      store.commit('product/viewProductDetail', item);
+      store.commit('showModal/showProductDetail');
+    },
+    onImageZoomBtnClick(url) {
+      store.commit('product/viewImageZoom', url);
+      store.commit('showModal/showImageDetail');
     },
   },
 };

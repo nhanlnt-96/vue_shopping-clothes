@@ -4,24 +4,33 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Cart</p>
-        <button class="delete" aria-label="close"
-                @click="$store.commit('showCart/showCart')"></button>
+        <button id="close-cart" class="delete" aria-label="close"
+                @click="onCloseCartModal()"></button>
       </header>
       <section class="modal-card-body cart-container">
         <p v-if="noData">No product is selected.</p>
-        <div :key="item.id" v-for="item in allProducts" class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img :src="item.image" :alt="item.title">
-            </figure>
+        <div :key="item.id" v-for="item in allProducts" class="card card-custom">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img :src="item.image" :alt="item.title">
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4">{{ truncateTitle(item.title) }}</p>
+                <p class="subtitle is-6">Price: ${{ item.price }} - Quantity: {{
+                    item.quantity
+                  }}</p>
+              </div>
+            </div>
           </div>
-          <div class="media-content">
-            <p :title="item.title" class="title is-4">{{ truncateTitle(item.title) }}</p>
-            <p class="subtitle is-6">${{ item.price }}</p>
-          </div>
-          <button @click="onDeleteProductBtnClick(item.id)" class="button is-danger">
-            <i class='bx bxs-trash-alt'></i>
-          </button>
+          <footer class="card-footer">
+            <a class="card-footer-item" @click="onIncreaseProduct(item)">+</a>
+            <a class="card-footer-item" @click="onDecreaseProduct(item)">-</a>
+            <a class="card-footer-item has-text-danger"
+               @click="onDeleteProductBtnClick(item)">Remove</a>
+          </footer>
         </div>
       </section>
       <footer class="modal-card-foot">
@@ -42,11 +51,11 @@ export default {
   name: 'Cart',
   computed: {
     ...mapState({
-      allProducts: (state) => state.product.products,
-      cartActive: (state) => state.showCart.showCart,
+      allProducts: (state) => state.product.products.filter((val) => val.quantity >= 1),
+      cartActive: (state) => state.showModal.showCart,
     }),
     cartTotal() {
-      const result = this.allProducts.reduce((pre, cur) => pre + cur.price, 0);
+      const result = this.allProducts.reduce((pre, cur) => (pre + cur.price) * cur.quantity, 0);
       return Math.round((result + Number.EPSILON) * 100) / 100;
     },
     noData() {
@@ -65,8 +74,27 @@ export default {
       }
       return title;
     },
-    onDeleteProductBtnClick(id) {
-      store.dispatch('product/removeProductFromCartAction', id);
+    onDeleteProductBtnClick(item) {
+      const confirm = window.confirm(`Are you sure you want to remove all ${item.title}?`); // eslint-disable-line no-alert
+      if (confirm) {
+        store.dispatch('product/removeProductFromCartAction', item.id);
+      }
+    },
+    onCloseCartModal() {
+      store.commit('showModal/showCart');
+    },
+    onIncreaseProduct(item) {
+      store.commit('product/addToCart', item);
+    },
+    onDecreaseProduct(item) {
+      if (item.quantity > 1) {
+        store.commit('product/decreaseProduct', item);
+      } else {
+        const confirm = window.confirm(`Are you sure you want to remove ${item.title}?`); // eslint-disable-line no-alert
+        if (confirm) {
+          store.commit('product/decreaseProduct', item);
+        }
+      }
     },
   },
 };
@@ -85,5 +113,9 @@ export default {
       }
     }
   }
+}
+
+.card-custom:not(:last-child) {
+  margin-bottom: 10px;
 }
 </style>

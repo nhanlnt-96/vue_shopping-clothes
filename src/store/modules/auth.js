@@ -9,7 +9,7 @@ const state = () => ({
     fullName: '',
     username: '',
     email: '',
-    isLogged: true,
+    isLogged: false,
     status: '',
     error: '',
   },
@@ -24,12 +24,43 @@ const actions = {
   addNewAccountAction({ commit, state }, userSignUp) {
     const userCheck = state.allAccount.find((val) => val.username === userSignUp.username);
     const emailCheck = state.allAccount.find((val) => val.email === userSignUp.email);
+    const {
+      fullName,
+      email,
+      username,
+      password,
+    } = userSignUp;
+    // eslint-disable-next-line
+    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (!userCheck && !emailCheck) {
-      commit('addNewAccount', userSignUp);
-      state.error = {
-        username: null,
-        email: null,
-      };
+      if (email.match(mailFormat) && !username.includes(' ')) {
+        commit('addNewAccount', {
+          id: Math.floor(Math.random() * 1000),
+          fullName,
+          email,
+          username: username.toLowerCase().replaceAll(' ', ''),
+          password,
+        });
+        state.error = {
+          username: null,
+          email: null,
+        };
+      } else if (!email.match(mailFormat)) {
+        state.error = {
+          username: '',
+          email: 'Invalid email.',
+        };
+      } else if (username.includes(' ')) {
+        state.error = {
+          username: `Username must be ${username.toLowerCase().replaceAll(' ', '')}`,
+          email: '',
+        };
+      } else {
+        state.error = {
+          username: `Username must be ${username.toLowerCase().replaceAll(' ', '')}`,
+          email: 'Invalid email.',
+        };
+      }
     }
     if (userCheck) {
       state.error.username = 'Username already exist';
@@ -46,6 +77,10 @@ const actions = {
       if (userCheck.password === userSignIn.password) {
         commit('signInAccount', userSignIn);
         state.authAccount = {
+          id: userCheck.id,
+          fullName: userCheck.fullName,
+          username: userCheck.username,
+          email: userCheck.email,
           status: 'Sign in successful.',
           error: '',
           isLogged: true,
@@ -77,7 +112,6 @@ const mutations = {
       password: userSignUp.password,
     });
     state.success = 'Sign up successful.';
-    console.log(state.allAccount);
   },
   signInAccount(state, userSignIn) {
     state.authAccount.id = userSignIn.id;
@@ -85,6 +119,17 @@ const mutations = {
     state.authAccount.username = userSignIn.username;
     state.authAccount.email = userSignIn.email;
     state.authAccount.isLogged = true;
+  },
+  logOutAccount(state) {
+    state.authAccount = {
+      id: '',
+      fullName: '',
+      username: '',
+      email: '',
+      isLogged: false,
+      status: '',
+      error: '',
+    };
   },
 };
 

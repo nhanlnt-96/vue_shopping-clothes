@@ -19,10 +19,6 @@ const navigation = [
     title: 'Electronics',
     url: '/electronics',
   },
-  {
-    title: 'About us',
-    url: '/about-us',
-  },
 ];
 
 export default navigation;
