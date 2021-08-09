@@ -13,7 +13,7 @@
     <div class="control has-icons-left has-icons-right">
       <input v-model="userSignIn.username" class="input"
              :class="validated(userSignIn.username)" type="text"
-             placeholder="Text input">
+             placeholder="Enter username">
       <span class="icon is-small is-left">
       <i class='bx bxs-user'></i>
       </span>
