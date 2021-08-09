@@ -13,6 +13,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f git@github.com:nhanlnt-96/vue_shopping-clothes.git main:gh-pages
+git push -f git@github.com:nhanlnt-96/vue_shopping-clothes.git master:gh-pages
 
 cd -
